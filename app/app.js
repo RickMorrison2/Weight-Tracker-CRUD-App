@@ -6,8 +6,7 @@ interact with localstorage
  */
 
 $(document).ready(function(){
-  // this is where we jquery
-  //var keyData = 'ourKey'; // going to need to make this dynamic?
+  
   var userArr = [];
   var now = new Date();
   var month = (now.getMonth() + 1);               
@@ -40,21 +39,13 @@ return returnArr;
 }
 
 var nestedArr = mapData(userArr)
-// //instantiate chart
 var drawWeightChart = function(nestedArr, valueData) {
   localStorage.getItem(valueData)
   var weightChart = c3.generate({
     bindto: "#chart-weight",
       data: {
           x: 'x',
-         // xFormat: '%m%d&Y', // 'xFormat' can be used as custom format of 'x'
           columns: nestedArr,
-  //         [
-  //             ['x', dateArr[clickCount]], // dates, need to dynamically pull in from inputs],
-  // //            ['x', '20130101', '20130102', '20130103', '20130104', '20130105', '20130106'],
-  //             ['weight', weightArr[clickCount]] // pull weight in from input and storage array],
-  //             // ['BMI'] // calculated from weight and height, optional]
-  //         ]
           axes: {
             weight: 'y',
             BMI: 'y2'
@@ -63,6 +54,10 @@ var drawWeightChart = function(nestedArr, valueData) {
             weight: 'line',
             BMI: 'bar'
           },
+          colors: {
+            BMI: '#63C1E8',
+            weight: '#8B80F9'
+          }
       },
       axis: {
           x: {
@@ -72,15 +67,15 @@ var drawWeightChart = function(nestedArr, valueData) {
               }
           },
           y: {
-            min: valueData - 30,
+            min: valueData - 20,
             label: 'weight'
           },
           y2: {
-            min: 15,
+            min: 16,
             show: true,
             label: 'BMI'
           }
-      }
+      },
   }); 
 }
     drawWeightChart(nestedArr);
@@ -88,11 +83,9 @@ var drawWeightChart = function(nestedArr, valueData) {
 var mapBMI = function(userArr) {
   var mappedBMIArr = [];
   var BMIArr2 = ['BMI'];
-  for (var i = 0; i < userArr.length; i++) {
-  var BMI = (703 * (userArr[i]['weight']) / ((userArr[i]['height']) * (userArr[i]['height'])))
+  var BMI = (703 * (userArr[userArr.length-1]['weight']) / ((userArr[userArr.length-1]['height']) * (userArr[userArr.length-1]['height'])))
   var BMIString = BMI.toFixed(2)
   BMIArr2.push(parseFloat(BMIString));
-}
   mappedBMIArr.push(BMIArr2)
   return mappedBMIArr;
   }
@@ -110,24 +103,25 @@ var chartBMI = c3.generate({
            format: function(value, ratio) {
                return value;
            },
-           show: false // to turn off the min/max labels.
+           show: false
        },
-      min: 10, // 0 is default, //can handle negative min e.g. vacuum / voltage / current flow / rate of change
-      max: 45, // 100 is default
-//    units: ' %',
-//    width: 39 // for adjusting arc thickness
+      min: 10,
+      max: 45,
     },
     color: {
         pattern: ['#FF0000', '#60B044', '#F6C600', '#F97600', '#FF0000'],
         threshold: {
-           unit: 'value', // percentage is default
-//            max: 200, // 100 is default
+           unit: 'value',
             values: [18.5, 25, 30, 40]
         }
     },
     size: {
         height: 180
     }
+});
+chartBMI.load({
+  unload: true,
+  columns: nestedBMI,
 });
 }
 
@@ -142,36 +136,28 @@ var chartBMI = c3.generate({
       'height': heightData,
       'weight': valueData
     };
+    var nestedArr = [[]];
     userArr.push(weightObj);
     localStorage.setItem(keyData, JSON.stringify(userArr));
-    var nestedArr = mapData(userArr);
+    nestedArr = mapData(userArr);
     var nestedBMI = mapBMI(userArr);
-    drawBMIChart(nestedBMI, valueData, heightData);
+    drawBMIChart(nestedBMI);
     drawWeightChart(nestedArr, valueData);
     // read from db
-    // var displayText = keyData + ' | ' + localStorage.getItem(keyData);
-    // this only displays the last one? might want to switch to html
-    // and append a div
-    // <div class="display-data-item" data-keyValue="keyData">valueData</div>
-    // if you use backticks ` you can use ${templateLiterals}
-    // TODO make this vars make sense across the app
-    // $('.container-data').html('<div class="display-data-item" data-keyValue="'+ keyData +'">'+valueData+'</div>');
-    // $('.input-key').val('');
-    // $('.input-value').val('');
-  });
-
-
-  // update db
-    // need to expand when  more than 1 item is added
-
-  // delete item
-  $('.container-data').on('click', '.display-data-item', function(e){
-    console.log(e.currentTarget.dataset.keyvalue);
-    var keyData = e.currentTarget.dataset.keyvalue;
-    localStorage.removeItem(keyData);
-    $('.container-data').text('');
-  });
-  // delete all?
+    var BMI = (703 * (userArr[userArr.length-1]['weight']) / ((userArr[userArr.length-1]['height']) * (userArr[userArr.length-1]['height'])))
+    var BMIString = BMI.toFixed(2)
+    if (parseFloat(BMIString) < 18.5) {
+      var BMICategory = 'underweight';
+    } else if (parseFloat(BMIString) >= 18.5 && parseFloat(BMIString) < 24.9) {
+      BMICategory = 'normal';
+    } else if (parseFloat(BMIString) >= 24.9 && parseFloat(BMIString) < 29.9) {
+      BMICategory = 'overweight';
+    } else if (parseFloat(BMIString) >= 29.9) {
+      BMICategory = 'obese';
+    }
+    var BMIDisplay = 'Your BMI is ' + parseFloat(BMIString) + ', which is considered ' + BMICategory + '.'
+    $("#text-BMI-category").text(BMIDisplay);
+});
   $('.btn-clear').click(function(){
     localStorage.clear();
     $('.container-data').text('');
