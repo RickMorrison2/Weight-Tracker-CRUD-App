@@ -8,8 +8,13 @@
           integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
           crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.21/c3.js
+"></script>
+  <script src="app/moment.js"></script>
   <script src="app/app.js"></script>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="C:\Users\pepsi\Desktop\HREXT07 Exercises\c3\c3.css">
 
 
   <!--
@@ -26,16 +31,104 @@ container for the response-feedback (start with alert)
 <body>
 
 <div class="container-main">
-  <header>My Cruddy App</header>
-  <div class="container-form">
-    <input type="text" class="input-key" placeholder="enter key">
-    <input type="text" class="input-value" placeholder="enter value">
+  <header>My Weight/BMI Tracker</header>
+<!--   <div class="container-calender">
+    <div <div class="month"> 
+  <ul>
+    <li class="prev">&#10094;</li>
+    <li class="next">&#10095;</li>
+    <li>February<br><span style="font-size:18px">2019</span></li>
+  </ul>
+</div>
+
+<ul class="weekdays">
+  <li>Mo</li>
+  <li>Tu</li>
+  <li>We</li>
+  <li>Th</li>
+  <li>Fr</li>
+  <li>Sa</li>
+  <li>Su</li>
+</ul>
+
+<ul class="days"> 
+  <li>1</li>
+  <li>2</li>
+  <li>3</li>
+  <li>4</li>
+  <li>5</li>
+  <li>6</li>
+  <li>7</li>
+  <li>8</li>
+  <li>9</li>
+  <li>10</span></li>
+  <li>11</li>
+  <li>12</li>
+  <li><span class="active">13</li>
+  <li>14</li>
+  <li>15</li>
+  <li>16</li>
+  <li>17</li>
+  <li>18</li>
+  <li>19</li>
+  <li>20</li>
+  <li>21</li>
+  <li>22</li>
+  <li>23</li>
+  <li>24</li>
+  <li>25</li>
+  <li>26</li>
+  <li>27</li>
+  <li>28</li>
+</ul>
+ -->  <div class="container-form">
+    <input type="text" class="input-user" placeholder="Enter user">
+    <!-- <input type="text" class="input-key" placeholder="enter height"> -->
+    <select name="height" id="dropdown-height">
+      <option value="53">4'5"</option>
+      <option value="54">4'6"</option>
+      <option value="55">4'7"</option>
+      <option value="56">4'8"</option>
+      <option value="57">4'9"</option>
+      <option value="58">4'10"</option>
+      <option value="59">4'11"</option>
+      <option value="60">5'0"</option>
+      <option value="61">5'1"</option>
+      <option value="62">5'2"</option>
+      <option value="63">5'3"</option>
+      <option value="64">5'4"</option>
+      <option value="65">5'5"</option>
+      <option value="66">5'6"</option>
+      <option value="67">5'7"</option>
+      <option value="68">5'8"</option>
+      <option value="69">5'9"</option>
+      <option value="70">5'10"</option>
+      <option value="71" selected>5'11"</option>
+      <option value="72">6'0"</option>
+      <option value="73">6'1"</option>
+      <option value="74">6'2"</option>
+      <option value="75">6'3"</option>
+      <option value="76">6'4"</option>
+      <option value="77">6'5"</option>
+      <option value="78">6'6"</option>
+      <option value="79">6'7"</option>
+      <option value="80">6'8"</option>
+      <option value="81">6'9"</option>
+      <option value="82">6'10"</option>
+      <option value="83">6'11"</option>
+      <option value="84">7'0"</option>
+    <input type="date" class="input-date">
+    <input type="number" class="input-value" placeholder="Enter weight">
     <button class="btn-add">Submit</button>
-    <button class="btn-update">Update</button>
-    <button class="btn-delete">Delete</button>
     <button class="btn-clear">Clear</button>
   </div>
-  <div class="container-data"></div>
+<!--   <div class="container-data"></div> -->
+<div class="container-charts">
+  <div id="chart-weight">
+  </div>
+  <div id="chart-BMI">
+  </div>
+</div>
 </div>
 
 </body>
