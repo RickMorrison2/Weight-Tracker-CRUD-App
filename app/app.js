@@ -135,10 +135,10 @@ chartBMI.load({
       'height': heightData,
       'weight': valueData
     };
-    userArr.push(weightObj);
       if (localStorage.getItem(keyData) !== null) {
     userArr = JSON.parse(localStorage.getItem(keyData));
   }
+    userArr.push(weightObj);
     localStorage.setItem(keyData, JSON.stringify(userArr));
     nestedArr = mapData(userArr);
     var nestedBMI = mapBMI(userArr);
