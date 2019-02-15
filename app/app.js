@@ -6,7 +6,6 @@ interact with localstorage
  */
 
 $(document).ready(function(){
-  
   var userArr = [];
   var now = new Date();
   var month = (now.getMonth() + 1);               
@@ -78,7 +77,6 @@ var drawWeightChart = function(nestedArr, valueData) {
       },
   }); 
 }
-    drawWeightChart(nestedArr);
 
 var mapBMI = function(userArr) {
   var mappedBMIArr = [];
@@ -124,6 +122,7 @@ chartBMI.load({
   columns: nestedBMI,
 });
 }
+    drawWeightChart(nestedArr);
 
   $('.btn-add').on('click', function(e){
     var keyData = $('.input-user').val();
@@ -136,8 +135,10 @@ chartBMI.load({
       'height': heightData,
       'weight': valueData
     };
-    var nestedArr = [[]];
     userArr.push(weightObj);
+      if (localStorage.getItem(keyData) !== null) {
+    userArr = JSON.parse(localStorage.getItem(keyData));
+  }
     localStorage.setItem(keyData, JSON.stringify(userArr));
     nestedArr = mapData(userArr);
     var nestedBMI = mapBMI(userArr);
@@ -159,11 +160,15 @@ chartBMI.load({
     $("#text-BMI-category").text(BMIDisplay);
 });
   $('.btn-clear').click(function(){
+    var confirm = window.confirm("Are you sure?");
+    if (confirm === true) {
     localStorage.clear();
     $('.container-data').text('');
-    drawWeightChart(nestedArr);
-    drawBMIChart(nestedArr);
+    $('#text-BMI-category').text('');
     userArr = [];
+    drawWeightChart([[0]]);
+    drawBMIChart([[0]]);
+    }
   });
 
 });
