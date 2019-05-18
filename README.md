@@ -1,4 +1,4 @@
-# hrext07-my-cruddy-app
+# Weight Tracker CRUD App
 Create Read Update and Delete framework using JS
 
 
